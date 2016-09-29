@@ -127,7 +127,6 @@ public class Loader extends AsmBaseVisitor<Void> {
 	}
 	
 	public static void registerNative(String name, int addr) {
-		System.out.println(name);
 		natives.put(name, addr);
 	}
 
@@ -144,7 +143,6 @@ public class Loader extends AsmBaseVisitor<Void> {
 		ParseTree tree = parser.program();
 		Loader loader = new Loader();
 		loader.visit(tree);
-		loader.printInsns();
 		return loader;
 	}
 	

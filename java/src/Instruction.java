@@ -67,7 +67,7 @@ public class Instruction {
 		new InsnSpec("jmp",  JMP,  DISP, 0, 0),
 		new InsnSpec("jmpt", JMPT, REG, DISP, 0),
 		new InsnSpec("jmpf", JMPF, REG, DISP, 0),
-		new InsnSpec("ret",  RET,  0, 0, 0),
+		new InsnSpec("ret",  RET,  REG, 0, 0),
 		new InsnSpec("enter", ENTER, PINT, 0, 0),
 		new InsnSpec("geta", GETA, REG, 0, 0),
 		new InsnSpec("seta", SETA, REG, 0, 0),
