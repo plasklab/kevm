@@ -1,0 +1,7 @@
+JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_25.jdk/Contents/Home
+PATH=$JAVA_HOME/bin:$PATH
+ANTLRPATH=`pwd`/lib/antlr-4.5.3-complete.jar
+CLASSPATH=".:bin:$ANTLRPATH:$CLASSPATH"
+export CLASSPATH
+alias antlr4="java -jar $ANTLRPATH"
+alias grun="java org.antlr.v4.gui.TestRig"
