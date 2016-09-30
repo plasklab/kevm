@@ -1,0 +1,122 @@
+<html>
+  <meta http-equiv="Content-Type" content="text/html: charset=UTF8"/>
+<head>
+  <style type="text/css">
+    td.codeNormal {
+        background: white;
+        font-size: 70%
+    }
+    td.codeExec   {
+        background: pink;
+        font-size: 70%
+    }
+    td.codeAddr   {
+        font-size: 70%
+    }
+  </style>
+  <script type="text/javascript" src="jquery-2.1.1.js"></script>
+  <script type="text/javascript" src="jsRVM.js"></script>
+  <script type="text/javascript">
+    var theVM;
+    $(function () {
+    var theUI = new UI({
+    "inputText":    "input",
+    "inputButton":  "inputButton",
+    "outputText":   "output",
+    "stepCheckbox": "stepMode",
+    "stepCount":    "execcount",
+    "program":      "tblcode",
+    "register":     "tblreg",
+    "memory":       "tblmem"
+    });
+    theVM = new VM(theUI);
+    });
+    function run() {
+        theVM.run();
+    }
+    function parseError(n) {
+    	alert((n+1).toString() + "行目付近にエラーがあるようです");
+    }
+    function load() {
+        theVM.load(document.codeform.code.value, parseError);
+    }
+    function loadFromFile() {
+        var reader = new FileReader();
+        reader.onload = function () {
+            theVM.load(this.result, parseError);
+        };
+        var files = $("#loadFile")[0].files;
+        var file = files.item(0);
+        reader.readAsText(file);
+    }
+  </script>
+</head>
+<body>
+</form>
+
+<table border="1">
+<tr>
+<td>操作</td>
+<td>命令</td>
+<td>レジスタ</td>
+<td>メモリ</td>
+</tr>
+<tr>
+<td valign="top">
+ステップ実行<input type="checkbox" id="stepMode"/><br/>
+<input type="button" value="run" id="runButton" onClick="run()"/><br/>
+実行命令数<div id="execcount"></div><br/>
+<hr/>
+入力:<input type="text" id="input"/>
+<input type="button" value="enter" id="inputButton" onClick="run()"/>
+<br/>
+出力:<br/>
+<textarea id="output" width="100%"></textarea></br>
+</td>
+<td valign="top">
+  <table id="tblcode" border="1"><tr><th>番地</th><th>命令</th</tr></table>
+</td>
+<td valign="top">
+  <table id="tblreg" border="1"><tr><th>番号</th><th>値</th></tr></table>
+</td>
+<td valign="top">
+  <table id="tblmem" border="1"><tr><th>番地</th><th>値</th></tr></table>
+</td>
+</tr>
+</table>
+
+<form name="codeform">
+<textarea name="code"></textarea>
+<input type="button" value="load" onClick="load()"/><br/>
+<input type="file" id="loadFile"/>
+<input type="button" value="load from file" onClick="loadFromFile()"/>
+</form>
+階乗を求めるプログラム<br/>
+<pre>
+	number	r8, 0
+	call	r7, get
+	call	r7, fact
+	call	r7, put
+	exit
+fact:	number  r2, 1
+	eq	r3, r1, r2
+	jmpf	r3, rec
+	ret	r7
+rec:	add	r8, r8, r2
+	store	r8, r1
+	add	r8, r8, r2
+	store	r8, r7
+	sub	r1, r1, r2
+	call	r7, fact
+	number	r2, 1
+	load	r8, r7
+	sub	r8, r8, r2
+	load	r8, r3
+	sub	r8, r8, r2
+	mul	r1, r1, r3
+	ret	r7
+</pre>
+
+<a href="jsRVM.js">VMソースコード</a>
+</body>
+</html>
